@@ -85,7 +85,7 @@
 
         <script>
     const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycbySXKA-vxorHIBQgSxxMR3seUgH8sWY_ARmOAoJqwo0bGhamja4l6NZncRjMxEZjIM/exec'; // Your Web App URL
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycbzbhmYr83KP04UnfoL-dGJ_T3BKlONiv4hSmQBYSsgTYXp5FPfp7VYAVM_o-CQjsH0/exec'; // Your Web App URL
 
     function showError(message) {
         const errorMessage = document.getElementById('errorMessage');
@@ -130,25 +130,21 @@
         console.log('Data about to be sent:', data);
 
         fetch(webAppUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.text())
-        .then(result => {
-            console.log('Response from server:', result);
-            alert('Form submitted successfully');
-            document.getElementById('projectForm').reset();
-            document.getElementById('projectForm').classList.add('hidden');
-            document.getElementById('namePrompt').classList.remove('hidden');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showError('Form submission failed');
-        });
-    });
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+		.then(response => response.text())
+		.then(result => {
+			console.log('Response from server:', result);
+			alert('Form submitted successfully');
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+
 
     // Initialize the page
     window.onload = function() {
