@@ -85,7 +85,7 @@
 
         <script>
     const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
-    const webAppUrl = 'https://script.google.com/macros/s/AKfycby8XkFHzzndT6Awm2j3wLhfxRLqJ_bYGAU52mlfxQFAaT87PU_WCXfi81cYQPUEuwU/exec'; // Replace with your Web App URL
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycby8XkFHzzndT6Awm2j3wLhfxRLqJ_bYGAU52mlfxQFAaT87PU_WCXfi81cYQPUEuwU/exec'; // Your Web App URL
 
     function showError(message) {
         const errorMessage = document.getElementById('errorMessage');
@@ -126,6 +126,9 @@
         const data = {};
         formData.forEach((value, key) => data[key] = value);
 
+        // Log the data about to be sent
+        console.log('Data about to be sent:', data);
+
         fetch(webAppUrl, {
             method: 'POST',
             headers: {
@@ -135,6 +138,7 @@
         })
         .then(response => response.text())
         .then(result => {
+            console.log('Response from server:', result);
             alert('Form submitted successfully');
             document.getElementById('projectForm').reset();
             document.getElementById('projectForm').classList.add('hidden');
@@ -152,6 +156,7 @@
         document.getElementById('namePrompt').classList.remove('hidden');
     }
 </script>
+
 
     </div>
 </body>
