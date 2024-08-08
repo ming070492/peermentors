@@ -85,6 +85,7 @@
 
         <script>
             const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
+            const webAppUrl = 'https://script.google.com/macros/s/AKfycby8XkFHzzndT6Awm2j3wLhfxRLqJ_bYGAU52mlfxQFAaT87PU_WCXfi81cYQPUEuwU/exec'; // Replace with your Web App URL
 
             function showError(message) {
                 const errorMessage = document.getElementById('errorMessage');
@@ -125,9 +126,11 @@
                 const data = {};
                 formData.forEach((value, key) => data[key] = value);
 
-                fetch('YOUR_WEB_APP_URL', {
+                fetch(webAppUrl, {
                     method: 'POST',
-                    contentType: 'application/json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(data)
                 })
                 .then(response => response.text())
