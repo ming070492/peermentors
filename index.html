@@ -130,21 +130,27 @@
         console.log('Data about to be sent:', data);
 
         fetch(webAppUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-		.then(response => response.text())
-		.then(result => {
-			console.log('Response from server:', result);
-			alert('Form submitted successfully');
-		})
-		.catch(error => {
-			console.error('Error:', error);
-		});
-
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.text())
+        .then(result => {
+            console.log('Response from server:', result);
+            alert('Form submitted successfully');
+            document.getElementById('projectForm').reset();
+            document.getElementById('projectForm').classList.add('hidden');
+            document.getElementById('namePrompt').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Form submission failed');
+        });
+    });
+	
+	
 
     // Initialize the page
     window.onload = function() {
