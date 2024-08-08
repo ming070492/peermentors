@@ -25,12 +25,20 @@
             padding: 8px;
             box-sizing: border-box;
         }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h1>Project Form</h1>
-        <form id="projectForm" style="display: none;">
+        <div id="errorMessage" class="error-message hidden"></div>
+        <form id="projectForm" class="hidden">
             <input type="hidden" id="sheetName" name="sheetName">
 
             <div class="form-group">
@@ -69,25 +77,46 @@
             <button type="submit">Submit</button>
         </form>
 
+        <div id="namePrompt">
+            <label for="userName">Please enter your name:</label>
+            <input type="text" id="userName" name="userName">
+            <button id="submitName">Submit</button>
+        </div>
+
         <script>
-            // Array of valid names
             const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
-            
-            function validateUser() {
-                const userName = prompt("Please enter your name:");
-                
-                if (validNames.includes(userName.toUpperCase())) {
-                    // Set the sheetName value
-                    document.getElementById('sheetName').value = userName.toUpperCase();
-                    // Show the form
-                    document.getElementById('projectForm').style.display = 'block';
+
+            function showError(message) {
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
+            }
+
+            function hideError() {
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.classList.add('hidden');
+            }
+
+            function showForm() {
+                document.getElementById('projectForm').classList.remove('hidden');
+                document.getElementById('namePrompt').classList.add('hidden');
+            }
+
+            function validateUserName() {
+                const userName = document.getElementById('userName').value.toUpperCase();
+
+                if (validNames.includes(userName)) {
+                    hideError();
+                    document.getElementById('sheetName').value = userName;
+                    showForm();
                 } else {
-                    alert("Invalid name. Please enter a valid name.");
+                    showError("Invalid name. Please enter a valid name.");
                 }
             }
 
-            // Validate user on page load
-            window.onload = validateUser;
+            document.getElementById('submitName').addEventListener('click', function() {
+                validateUserName();
+            });
 
             document.getElementById('projectForm').addEventListener('submit', function(event) {
                 event.preventDefault();
@@ -105,14 +134,20 @@
                 .then(result => {
                     alert('Form submitted successfully');
                     document.getElementById('projectForm').reset();
-                    document.getElementById('projectForm').style.display = 'none'; // Hide the form again
-                    validateUser(); // Prompt user again after submission if needed
+                    document.getElementById('projectForm').classList.add('hidden');
+                    document.getElementById('namePrompt').classList.remove('hidden');
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Form submission failed');
+                    showError('Form submission failed');
                 });
             });
+
+            // Initialize the page
+            window.onload = function() {
+                document.getElementById('projectForm').classList.add('hidden');
+                document.getElementById('namePrompt').classList.remove('hidden');
+            }
         </script>
     </div>
 </body>
