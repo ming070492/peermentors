@@ -84,74 +84,75 @@
         </div>
 
         <script>
-            const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycby8XkFHzzndT6Awm2j3wLhfxRLqJ_bYGAU52mlfxQFAaT87PU_WCXfi81cYQPUEuwU/exec'; // Replace with your Web App URL
+    const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
+    const webAppUrl = 'https://script.google.com/macros/s/AKfycby8XkFHzzndT6Awm2j3wLhfxRLqJ_bYGAU52mlfxQFAaT87PU_WCXfi81cYQPUEuwU/exec'; // Replace with your Web App URL
 
-            function showError(message) {
-                const errorMessage = document.getElementById('errorMessage');
-                errorMessage.textContent = message;
-                errorMessage.classList.remove('hidden');
-            }
+    function showError(message) {
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
+    }
 
-            function hideError() {
-                const errorMessage = document.getElementById('errorMessage');
-                errorMessage.classList.add('hidden');
-            }
+    function hideError() {
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.classList.add('hidden');
+    }
 
-            function showForm() {
-                document.getElementById('projectForm').classList.remove('hidden');
-                document.getElementById('namePrompt').classList.add('hidden');
-            }
+    function showForm() {
+        document.getElementById('projectForm').classList.remove('hidden');
+        document.getElementById('namePrompt').classList.add('hidden');
+    }
 
-            function validateUserName() {
-                const userName = document.getElementById('userName').value.toUpperCase();
+    function validateUserName() {
+        const userName = document.getElementById('userName').value.toUpperCase();
 
-                if (validNames.includes(userName)) {
-                    hideError();
-                    document.getElementById('sheetName').value = userName;
-                    showForm();
-                } else {
-                    showError("Invalid name. Please enter a valid name.");
-                }
-            }
+        if (validNames.includes(userName)) {
+            hideError();
+            document.getElementById('sheetName').value = userName;
+            showForm();
+        } else {
+            showError("Invalid name. Please enter a valid name.");
+        }
+    }
 
-            document.getElementById('submitName').addEventListener('click', function() {
-                validateUserName();
-            });
+    document.getElementById('submitName').addEventListener('click', function() {
+        validateUserName();
+    });
 
-            document.getElementById('projectForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const formData = new FormData(this);
-                const data = {};
-                formData.forEach((value, key) => data[key] = value);
+    document.getElementById('projectForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
 
-                fetch(webAppUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.text())
-                .then(result => {
-                    alert('Form submitted successfully');
-                    document.getElementById('projectForm').reset();
-                    document.getElementById('projectForm').classList.add('hidden');
-                    document.getElementById('namePrompt').classList.remove('hidden');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showError('Form submission failed');
-                });
-            });
+        fetch(webAppUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert('Form submitted successfully');
+            document.getElementById('projectForm').reset();
+            document.getElementById('projectForm').classList.add('hidden');
+            document.getElementById('namePrompt').classList.remove('hidden');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('Form submission failed');
+        });
+    });
 
-            // Initialize the page
-            window.onload = function() {
-                document.getElementById('projectForm').classList.add('hidden');
-                document.getElementById('namePrompt').classList.remove('hidden');
-            }
-        </script>
+    // Initialize the page
+    window.onload = function() {
+        document.getElementById('projectForm').classList.add('hidden');
+        document.getElementById('namePrompt').classList.remove('hidden');
+    }
+</script>
+
     </div>
 </body>
 </html>
