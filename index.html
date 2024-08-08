@@ -30,7 +30,9 @@
 <body>
     <div class="form-container">
         <h1>Project Form</h1>
-        <form>
+        <form id="projectForm" style="display: none;">
+            <input type="hidden" id="sheetName" name="sheetName">
+
             <div class="form-group">
                 <label for="projectId">PROJECT ID</label>
                 <input type="number" id="projectId" name="projectId" required>
@@ -43,7 +45,6 @@
                     <option value="module1">Module 1</option>
                     <option value="module2">Module 2</option>
                     <option value="module3">Module 3</option>
-                    <!-- Add more options as needed -->
                 </select>
             </div>
 
@@ -67,6 +68,52 @@
 
             <button type="submit">Submit</button>
         </form>
+
+        <script>
+            // Array of valid names
+            const validNames = ["JM", "KYLE", "FRANCO", "EDISON", "RICARDO"];
+            
+            function validateUser() {
+                const userName = prompt("Please enter your name:");
+                
+                if (validNames.includes(userName.toUpperCase())) {
+                    // Set the sheetName value
+                    document.getElementById('sheetName').value = userName.toUpperCase();
+                    // Show the form
+                    document.getElementById('projectForm').style.display = 'block';
+                } else {
+                    alert("Invalid name. Please enter a valid name.");
+                }
+            }
+
+            // Validate user on page load
+            window.onload = validateUser;
+
+            document.getElementById('projectForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(this);
+                const data = {};
+                formData.forEach((value, key) => data[key] = value);
+
+                fetch('YOUR_WEB_APP_URL', {
+                    method: 'POST',
+                    contentType: 'application/json',
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    alert('Form submitted successfully');
+                    document.getElementById('projectForm').reset();
+                    document.getElementById('projectForm').style.display = 'none'; // Hide the form again
+                    validateUser(); // Prompt user again after submission if needed
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Form submission failed');
+                });
+            });
+        </script>
     </div>
 </body>
 </html>
